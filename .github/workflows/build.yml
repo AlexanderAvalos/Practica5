@@ -1,0 +1,62 @@
+name: Construir artefacto
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout del código fuente
+        uses: actions/checkout@v2
+
+      - name: Artefacto Cliente
+        run: |
+            cd practica/cliente
+            npm install
+            npm pack
+      
+      - name: Artefacto Restaurante
+        run: |
+            cd practica/restaurante
+            npm install
+            npm pack
+      
+      - name: Artefacto Repartidor
+        run: |
+            cd practica/repartidor
+            npm install
+            npm pack
+      
+      - name: Artefacto ESB
+        run: |
+            cd practica/ESB
+            npm install
+            npm pack
+
+      - name: Empaquetar artefacto cliente
+        uses: actions/upload-artifact@v2
+        with:
+            name: Artefacto Cliente
+            path: practica/cliente/cliente-1.0.0.tgz
+
+      - name: Empaquetar artefacto restaurante
+        uses: actions/upload-artifact@v2
+        with:
+            name: Artefacto restaurante
+            path: practica/restaurante/restaurante-1.0.0.tgz
+
+      - name: Empaquetar artefacto repartidor
+        uses: actions/upload-artifact@v2
+        with:
+            name: Artefacto repartidor
+            path: practica/repartidor/repartidor-1.0.0.tgz
+
+      - name: Empaquetar artefacto esb
+        uses: actions/upload-artifact@v2
+        with:
+            name: Artefacto esb
+            path: practica/ESB/esb-1.0.0.tgz
