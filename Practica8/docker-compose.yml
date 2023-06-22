@@ -1,0 +1,30 @@
+version: '3'
+networks:
+    practica:
+        name: practica
+        driver: bridge
+services:
+  base:
+    image: "mysql"
+    container_name: 'MYSQL_Base'
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql123
+    volumes:
+      - base:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - practica
+  backend:
+    env_file:
+      - .env
+    container_name: backend
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    ports:
+      - 3000:3000
+    networks:
+      - practica
+volumes:
+  base:
